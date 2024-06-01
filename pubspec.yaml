@@ -1,0 +1,29 @@
+name: bmp_music
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: '>=3.4.1 <4.0.0'
+
+dependencies:
+  audio_service: ^0.18.13
+  audio_video_progress_bar: ^2.0.3
+  flutter:
+    sdk: flutter
+  flutter_dotenv: ^5.1.0
+  get: ^4.6.6
+  http: ^1.2.1
+  just_audio: ^0.9.38
+  permission_handler: ^11.3.1
+  provider: ^6.1.2
+  shared_preferences: ^2.2.3
+  transparent_image: ^2.0.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
