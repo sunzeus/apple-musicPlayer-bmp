@@ -19,45 +19,40 @@ class AlbumsCategoryItems extends StatelessWidget {
         ),
         itemBuilder: (context, index) {
           return Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Expanded(
-                child: Image.asset(
-                  albumsItems[index].image,
-                  fit: BoxFit.cover,
-                ),
+              Image.asset(
+                albumsItems[index].image,
+                fit: BoxFit.cover,
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      albumsItems[index].title,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    albumsItems[index].title,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    Text(
-                      albumsItems[index].artist,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: ColorUtils.lightBlack,
-                      ),
+                  ),
+                  Text(
+                    albumsItems[index].artist,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: ColorUtils.lightBlack,
                     ),
-                    Text(
-                      "Songs ${albumsItems[index].songCount}",
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: ColorUtils.lightBlack,
-                      ),
+                  ),
+                  Text(
+                    "Songs ${albumsItems[index].songCount}",
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: ColorUtils.lightBlack,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ],
           );
