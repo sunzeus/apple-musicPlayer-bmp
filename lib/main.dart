@@ -1,5 +1,8 @@
 import 'package:bmp_music/notifiers/bpm_notifier.dart';
+import 'package:bmp_music/notifiers/category_notifier.dart';
 import 'package:bmp_music/screens/home_screen.dart';
+import 'package:bmp_music/screens/player_screen.dart';
+import 'package:bmp_music/screens/profile_screen.dart';
 import 'package:bmp_music/utils/color_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
@@ -17,6 +20,7 @@ class MainApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => BPMNotifier()),
+        ChangeNotifierProvider(create: (_) => CategoryNotifier()),
       ],
       child: GetMaterialApp(
         theme: ThemeData(

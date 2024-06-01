@@ -43,6 +43,8 @@ class BPMChangeCard extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(bottom: 24.0),
                 child: Slider(
+                  min: 0.5,
+                  max: 2.0,
                   thumbColor: ColorUtils.darkRed,
                   activeColor: ColorUtils.lightRed,
                   value: (context.watch<BPMNotifier>().value / 100),

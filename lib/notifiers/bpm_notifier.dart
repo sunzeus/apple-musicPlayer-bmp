@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class BPMNotifier extends ChangeNotifier {
-  int _value = 50;
+  int _value = 110;
 
   int get value => _value;
 
