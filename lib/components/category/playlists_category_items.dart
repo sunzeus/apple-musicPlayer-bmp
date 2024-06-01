@@ -77,8 +77,13 @@ class PlaylistItem {
 
 List<PlaylistItem> albumsItems = [
   PlaylistItem(
-    image: "assets/image/image3.jpeg",
-    title: "title",
-    songCount: 5,
+    image: "assets/image/Dx7egGAVAAA0_PK-1024x636.jpg",
+    title: "ラブソング",
+    songCount: 14,
+  ),
+  PlaylistItem(
+    image: "assets/image/37835610345_c86accdcee_b.jpg",
+    title: "ゲームモード",
+    songCount: 3,
   ),
 ];

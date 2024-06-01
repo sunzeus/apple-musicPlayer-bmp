@@ -13,14 +13,11 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   List<Item> items = [
-    Item(
-        image: "assets/image/image1.jpg",
-        artist: "Morning Musume",
-        title: "I wish"),
+    Item(image: "assets/image/image1.jpg", artist: "モーニング娘。", title: "私は望む"),
     Item(
         image: "assets/image/image2.jpg",
-        artist: "Kaze Fujii",
-        title: "Love All Serve All"),
+        artist: "風 藤井",
+        title: "すべてを愛し、すべてに仕えます"),
     Item(
         image: "assets/image/image4.webp",
         artist: "King Gnu",
