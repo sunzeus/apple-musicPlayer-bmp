@@ -19,12 +19,14 @@ class AlbumsCategoryItems extends StatelessWidget {
         ),
         itemBuilder: (context, index) {
           return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset(
-                albumsItems[index].image,
-                fit: BoxFit.cover,
+              Flexible(
+                child: Image.asset(
+                  albumsItems[index].image,
+                  fit: BoxFit.cover,
+                ),
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -49,7 +51,7 @@ class AlbumsCategoryItems extends StatelessWidget {
                     "Songs ${albumsItems[index].songCount}",
                     style: TextStyle(
                       fontSize: 12,
-                      color: ColorUtils.lightBlack,
+                      color: ColorUtils.darkRed,
                     ),
                   ),
                 ],
