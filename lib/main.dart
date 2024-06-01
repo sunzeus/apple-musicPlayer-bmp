@@ -1,5 +1,6 @@
 import 'package:bmp_music/notifiers/bpm_notifier.dart';
 import 'package:bmp_music/screens/home_screen.dart';
+import 'package:bmp_music/utils/color_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:provider/provider.dart';
@@ -17,8 +18,17 @@ class MainApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => BPMNotifier()),
       ],
-      child: const GetMaterialApp(
-        home: HomeScreen(),
+      child: GetMaterialApp(
+        theme: ThemeData(
+          colorSchemeSeed: ColorUtils.darkRed,
+          useMaterial3: true,
+          scaffoldBackgroundColor:
+              Colors.white, // Set scaffold background color
+          appBarTheme: const AppBarTheme(
+            backgroundColor: Colors.white, // Set app bar background color
+          ),
+        ),
+        home: const HomeScreen(),
       ),
     );
   }

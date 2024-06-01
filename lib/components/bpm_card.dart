@@ -59,7 +59,7 @@ class BPMCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Change BPM",
+                            "BPMの変更",
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,

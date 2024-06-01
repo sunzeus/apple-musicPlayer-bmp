@@ -6,7 +6,7 @@ class ColorUtils {
   static Color lightRed = const Color(0xFFF94C57);
   static Color darkGrey = const Color(0xFFC2CAD7);
   static Color lightGrey = const Color(0xFFF5F5F5);
-  static Color lightBlack = Colors.black.withOpacity(0.75);
+  static Color lightBlack = Colors.black.withOpacity(0.65);
 
   static SystemUiOverlayStyle systemNavigationBarColorStyle(
           BuildContext context) =>

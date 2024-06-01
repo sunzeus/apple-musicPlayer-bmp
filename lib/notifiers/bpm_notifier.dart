@@ -9,4 +9,13 @@ class BPMNotifier extends ChangeNotifier {
     _value = newValue;
     notifyListeners();
   }
+
+  bool _checked = true;
+
+  bool get checked => _checked;
+
+  void updateChecked() {
+    _checked = !_checked;
+    notifyListeners();
+  }
 }

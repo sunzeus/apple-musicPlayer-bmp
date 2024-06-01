@@ -16,9 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: ColorUtils.systemNavigationBarColorStyle(context),
       child: Scaffold(
-        backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor: Colors.white,
           title: const Text("BPM Music"),
           actions: [
             IconButton(
