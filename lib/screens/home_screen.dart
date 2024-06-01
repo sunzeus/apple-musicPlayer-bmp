@@ -1,4 +1,5 @@
 import 'package:bmp_music/components/bpm_card.dart';
+import 'package:bmp_music/components/player_deck.dart';
 import 'package:bmp_music/utils/color_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -25,9 +26,12 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
-        body: CustomScrollView(
-          slivers: [
+        body: Column(
+          children: [
             BPMCard(),
+            Spacer(),
+            
+            PlayerDeck(),
           ],
         ),
       ),
