@@ -17,7 +17,7 @@ List<Item> songItems = [
       artist: "嵐",
       title: "モンスター"),
   Item(
-      image: "assets/image/スキャンダル_at_House_of_Blues_Anaheim-1024x565.jpg",
+      image: "assets/image/Sunshower+Taeko.jpeg",
       artist: "スキャンダル",
       title: "瞬間センチメンタル"),
   Item(

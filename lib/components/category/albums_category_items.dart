@@ -48,7 +48,7 @@ class AlbumsCategoryItems extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "Songs ${albumsItems[index].songCount}",
+                    "曲 ${albumsItems[index].songCount}",
                     style: TextStyle(
                       fontSize: 12,
                       color: ColorUtils.darkRed,
@@ -80,20 +80,20 @@ class AlbumItem {
 List<AlbumItem> albumsItems = [
   AlbumItem(
     image: "assets/image/Sunshower+Taeko.jpeg",
-    artist: "Taeko Ohnuki",
-    title: "Sunshower (1977)",
+    artist: "妙子 おｈ抜き",
+    title: "サンシャワー (1977)",
     songCount: 5,
   ),
   AlbumItem(
     image: "assets/image/R-6016245-1480909922-6423.jpeg.jpg",
-    artist: "Junko Yagami",
-    title: "Moon",
+    artist: "ジュンコ や紙",
+    title: "月",
     songCount: 12,
   ),
   AlbumItem(
     image: "assets/image/tomoko.jpg",
-    artist: "Tomoko Aran",
-    title: "Fuyu Kukan",
+    artist: "朋子 あらん",
+    title: "風遊空間",
     songCount: 7,
   ),
 ];
