@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1060198123769",
+    "project_id": "music-app-9ee48",
+    "storage_bucket": "music-app-9ee48.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1060198123769:android:d1d3e329c5a02442c13a28",
+        "android_client_info": {
+          "package_name": "com.example.bmp_music"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7IXuap7p0Do_oFtPbyrn7wSYsubZmMTQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

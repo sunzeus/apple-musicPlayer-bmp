@@ -21,4 +21,11 @@ class ColorUtils {
                 ? Brightness.light
                 : Brightness.dark,
       );
+
+  static Color systemNavigationBarColor(BuildContext context) =>
+      ElevationOverlay.applySurfaceTint(
+        Theme.of(context).colorScheme.surface,
+        Theme.of(context).colorScheme.surfaceTint,
+        2,
+      );
 }

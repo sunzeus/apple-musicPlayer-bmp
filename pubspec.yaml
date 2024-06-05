@@ -9,15 +9,21 @@ environment:
 dependencies:
   audio_service: ^0.18.13
   audio_video_progress_bar: ^2.0.3
+  cloud_firestore: ^5.0.0
+  crypto: ^3.0.3
+  firebase_auth: ^5.0.0
+  firebase_core: ^3.0.0
   flutter:
     sdk: flutter
   flutter_dotenv: ^5.1.0
   get: ^4.6.6
   http: ^1.2.1
+  intl: ^0.19.0
   just_audio: ^0.9.38
   permission_handler: ^11.3.1
   provider: ^6.1.2
   shared_preferences: ^2.2.3
+  sign_in_with_apple: ^6.1.0
   transparent_image: ^2.0.1
 
 dev_dependencies:

@@ -14,13 +14,9 @@ class PlayerDeck extends StatelessWidget {
   Widget build(BuildContext context) {
     Random random = Random();
     int index = random.nextInt(songItems.length);
-    return DecoratedBox(
+    return Container(
       decoration: BoxDecoration(
-        border: Border(
-          top: BorderSide(
-            color: ColorUtils.darkGrey,
-          ),
-        ),
+        color: ColorUtils.systemNavigationBarColor(context),
       ),
       child: ListTile(
         onTap: () => Get.to(

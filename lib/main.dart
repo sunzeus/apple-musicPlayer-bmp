@@ -1,14 +1,18 @@
+import 'package:bmp_music/auth/screens/apple_auth_screen.dart';
 import 'package:bmp_music/notifiers/bpm_notifier.dart';
 import 'package:bmp_music/notifiers/category_notifier.dart';
-import 'package:bmp_music/screens/home_screen.dart';
-import 'package:bmp_music/screens/player_screen.dart';
-import 'package:bmp_music/screens/profile_screen.dart';
+import 'package:bmp_music/screens/main_screen.dart';
 import 'package:bmp_music/utils/color_utils.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+import 'firebase_options.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MainApp());
 }
 
@@ -26,13 +30,14 @@ class MainApp extends StatelessWidget {
         theme: ThemeData(
           colorSchemeSeed: ColorUtils.darkRed,
           useMaterial3: true,
-          scaffoldBackgroundColor:
-              Colors.white, // Set scaffold background color
-          appBarTheme: const AppBarTheme(
-            backgroundColor: Colors.white, // Set app bar background color
-          ),
+          brightness: Brightness.light,
+          // scaffoldBackgroundColor:
+          //     Colors.white, // Set scaffold background color
+          // appBarTheme: const AppBarTheme(
+          //   backgroundColor: Colors.white, // Set app bar background color
+          // ),
         ),
-        home: const HomeScreen(),
+        home: const AppleAuthScreen(),
       ),
     );
   }

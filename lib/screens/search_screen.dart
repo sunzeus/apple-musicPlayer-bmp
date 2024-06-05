@@ -16,7 +16,7 @@ class _SearchScreenState extends State<SearchScreen> {
       appBar: AppBar(
         title: TextField(
           controller: _textEditingController,
-          autofocus: true,
+          autofocus: false,
           decoration: const InputDecoration(
             border: InputBorder.none,
             hintText: "Search",

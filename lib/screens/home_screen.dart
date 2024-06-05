@@ -7,7 +7,6 @@ import 'package:bmp_music/components/category_card.dart';
 import 'package:bmp_music/components/player_deck.dart';
 import 'package:bmp_music/notifiers/category_notifier.dart';
 import 'package:bmp_music/screens/profile_screen.dart';
-import 'package:bmp_music/screens/search_screen.dart';
 import 'package:bmp_music/utils/color_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -64,16 +63,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           title: const Text("音楽ペースメーカー"),
-          actions: [
-            IconButton(
-              onPressed: () => Get.to(
-                () => const SearchScreen(),
-                transition: Transition.rightToLeft,
-                duration: const Duration(milliseconds: 700),
-              ),
-              icon: const Icon(Icons.search_rounded),
-            ),
-          ],
         ),
         body: Column(
           children: [
