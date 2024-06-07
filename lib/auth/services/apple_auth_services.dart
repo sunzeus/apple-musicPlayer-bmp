@@ -79,10 +79,11 @@ class AppleAuthServices {
           .set(
         {
           'id': userCredential.user?.uid,
-          'musicToken': musicUserToken,
+          'musicUserToken': musicUserToken,
           'expirationTime': expirationTime,
         },
       );
+      
     } catch (e) {
       debugPrint("ERROR : ${e.toString()}");
     }

@@ -1,7 +1,9 @@
+/* eslint-disable camelcase */
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 const jwt = require("jsonwebtoken");
-const axios = require("axios");
+const https = require("https");
+const querystring = require("querystring");
 
 // Initialize Firebase Admin SDK
 admin.initializeApp();
@@ -44,43 +46,77 @@ exports.getDeveloperToken = functions.https.onRequest((request, response) => {
   response.json({token});
 });
 
-
 exports.getMusicUserToken = functions.https.onCall(async (data, context) => {
   const uid = context.auth.uid;
 
   // Retrieve user's token from Firestore
-  const userDoc = await firestoreClient
-      .collection("users").doc(uid).get();
+  const userDoc = await firestoreClient.collection("users").doc(uid).get();
   const userData = userDoc.data();
 
   // Check if token exists and is still valid
-  if (userData && userData.musicToken && userData.expirationTime > Date.now()) {
-    return {musicUserToken: userData.musicToken};
+  if (userData && userData.musicUserToken && userData.expirationTime > Date.now()) {
+    return {musicUserToken: userData.musicUserToken};
   }
 
   const authorizationCode = data.authorizationCode;
   const developerToken = generateDeveloperToken();
 
+  const postData = querystring.stringify({
+    grant_type: "authorization_code",
+    code: authorizationCode,
+  });
+
+  const options = {
+    hostname: "api.music.apple.com",
+    port: 443,
+    path: "/v1/me/token",
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${developerToken}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+      "Content-Length": postData.length,
+    },
+  };
+
   try {
-    const response = await axios.post("https://api.music.apple.com/v1/me/token", `grant_type=authorization_code&code=${authorizationCode}`, {
-      headers: {
-        "Authorization": `Bearer ${developerToken}`,
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
+    const {musicUserToken, expires_in} = await new Promise((resolve, reject) => {
+      const req = https.request(options, (res) => {
+        let data = "";
+        res.on("data", (chunk) => {
+          data += chunk;
+        });
+        res.on("end", () => {
+          const response = JSON.parse(data);
+          if (response.musicUserToken && response.expires_in) {
+            resolve({
+              musicUserToken: response.musicUserToken,
+              expires_in: response.expires_in,
+            });
+          } else {
+            reject(new Error("Failed to obtain Music User Token"));
+          }
+        });
+      });
+
+      req.on("error", (e) => {
+        reject(e);
+      });
+
+      req.write(postData);
+      req.end();
     });
 
-    const musicUserToken = response.data.musicUserToken;
-    const expiresIn = response.data.expires_in; // Expiration time in seconds
-    const expirationTime = Date.now() + expiresIn * 1000;
+    const expirationTime = Date.now() + expires_in * 1000;
 
     // Store the Music User Token and expiration time in Firestore
     await firestoreClient.collection("users").doc(uid).set({
-      musicToken: musicUserToken,
+      musicUserToken: musicUserToken,
       expirationTime: expirationTime,
     });
 
     return {musicUserToken: musicUserToken, expirationTime: expirationTime};
   } catch (error) {
     console.error("Error obtaining Music User Token:", error);
+    return {error: "Failed to obtain Music User Token"};
   }
 });
