@@ -1,1 +1,45 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"music-app-9ee48","appId":"1:1060198123769:android:d1d3e329c5a02442c13a28","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"music-app-9ee48","configurations":{"android":"1:1060198123769:android:d1d3e329c5a02442c13a28","ios":"1:1060198123769:ios:bc571549c4f5e36cc13a28","macos":"1:1060198123769:ios:bc571549c4f5e36cc13a28","web":"1:1060198123769:web:bf59b51757c3f460c13a28","windows":"1:1060198123769:web:03a7ba0600d5077dc13a28"}}}}}}
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "music-app-9ee48",
+          "appId": "1:1060198123769:android:d1d3e329c5a02442c13a28",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "music-app-9ee48",
+          "configurations": {
+            "android": "1:1060198123769:android:d1d3e329c5a02442c13a28",
+            "ios": "1:1060198123769:ios:bc571549c4f5e36cc13a28",
+            "macos": "1:1060198123769:ios:bc571549c4f5e36cc13a28",
+            "web": "1:1060198123769:web:bf59b51757c3f460c13a28",
+            "windows": "1:1060198123769:web:03a7ba0600d5077dc13a28"
+          }
+        }
+      }
+    }
+  },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ],
+      "predeploy": [
+        "npm --prefix \"$RESOURCE_DIR\" run lint"
+      ]
+    }
+  ]
+}

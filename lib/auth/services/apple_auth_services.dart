@@ -20,7 +20,7 @@ class AppleAuthServices {
       /// It will look something like this
       /// https://<GLITCH PROVIDED UNIQUE NAME>.glitch.me/callbacks/sign_in_with_apple
       String redirectURL =
-          'https://music-app-9ee48.firebaseapp.com/__/auth/handler';
+          'https://valley-amplified-fright.glitch.me/callbacks/sign_in_with_apple';
 
       /// Generates a Random String from 1-9 and A-Z characters.
       final rawNonce = generateNonce();

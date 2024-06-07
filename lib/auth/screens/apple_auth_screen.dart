@@ -1,7 +1,5 @@
+import 'package:bmp_music/auth/services/apple_auth_services.dart';
 import 'package:flutter/material.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-
-import '../services/apple_auth_services.dart';
 
 class AppleAuthScreen extends StatefulWidget {
   const AppleAuthScreen({super.key});
@@ -14,17 +12,20 @@ class _AppleAuthScreenState extends State<AppleAuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Apple Music Login'),
+      ),
       body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: SignInWithAppleButton(
-            onPressed: () async {
-              final credential = await AppleAuthServices.signIn();
+        child: ElevatedButton(
+          onPressed: () async {
+            final result = await AppleAuthServices.signIn();
 
-              print(credential);
-
-              // Send the credential to your server for validation and session creation
-            },
+            // final token = await getDeveloperToken();
+            // // Use the token for further actions
+            debugPrint('AUTH RESULT: ${result?.refreshToken}');
+          },
+          child: const Icon(
+            Icons.download_rounded,
           ),
         ),
       ),
