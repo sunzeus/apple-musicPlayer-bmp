@@ -2,12 +2,15 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class AppleAuthServices {
-  static Future<User?> signIn() async {
+  static Future<void> signIn() async {
     try {
       /// You have to put your service id here which you can find in previous steps
       /// or in the following link: https://developer.apple.com/account/resources/identifiers/list/serviceId
@@ -60,9 +63,28 @@ class AppleAuthServices {
       UserCredential userCredential =
           await FirebaseAuth.instance.signInWithCredential(appleAuthCredential);
 
-      return userCredential.user;
+      HttpsCallable callable =
+          FirebaseFunctions.instance.httpsCallable('getMusicUserToken');
+
+      dynamic response = await callable.call({
+        'authorizationCode': appleCredential.authorizationCode,
+      });
+
+      String musicUserToken = response.data['musicUserToken'];
+      DateTime expirationTime = response.data['expirationTime'];
+
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(userCredential.user?.uid)
+          .set(
+        {
+          'id': userCredential.user?.uid,
+          'musicToken': musicUserToken,
+          'expirationTime': expirationTime,
+        },
+      );
     } catch (e) {
-      rethrow;
+      debugPrint("ERROR : ${e.toString()}");
     }
   }
 

@@ -1,9 +1,12 @@
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 const jwt = require("jsonwebtoken");
+const axios = require("axios");
 
 // Initialize Firebase Admin SDK
 admin.initializeApp();
+
+const firestoreClient = admin.firestore();
 
 const TEAM_ID = "K9W97KFJK3";
 const KEY_ID = "W3ZK6X526K";
@@ -39,4 +42,45 @@ const generateDeveloperToken = () => {
 exports.getDeveloperToken = functions.https.onRequest((request, response) => {
   const token = generateDeveloperToken();
   response.json({token});
+});
+
+
+exports.getMusicUserToken = functions.https.onCall(async (data, context) => {
+  const uid = context.auth.uid;
+
+  // Retrieve user's token from Firestore
+  const userDoc = await firestoreClient
+      .collection("users").doc(uid).get();
+  const userData = userDoc.data();
+
+  // Check if token exists and is still valid
+  if (userData && userData.musicToken && userData.expirationTime > Date.now()) {
+    return {musicUserToken: userData.musicToken};
+  }
+
+  const authorizationCode = data.authorizationCode;
+  const developerToken = generateDeveloperToken();
+
+  try {
+    const response = await axios.post("https://api.music.apple.com/v1/me/token", `grant_type=authorization_code&code=${authorizationCode}`, {
+      headers: {
+        "Authorization": `Bearer ${developerToken}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    });
+
+    const musicUserToken = response.data.musicUserToken;
+    const expiresIn = response.data.expires_in; // Expiration time in seconds
+    const expirationTime = Date.now() + expiresIn * 1000;
+
+    // Store the Music User Token and expiration time in Firestore
+    await firestoreClient.collection("users").doc(uid).set({
+      musicToken: musicUserToken,
+      expirationTime: expirationTime,
+    });
+
+    return {musicUserToken: musicUserToken, expirationTime: expirationTime};
+  } catch (error) {
+    console.error("Error obtaining Music User Token:", error);
+  }
 });

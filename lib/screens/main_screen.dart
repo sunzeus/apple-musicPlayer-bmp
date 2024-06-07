@@ -23,10 +23,14 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Color systemNavigationBarColor = ElevationOverlay.applySurfaceTint(
+      Theme.of(context).colorScheme.surface,
+      Theme.of(context).colorScheme.surfaceTint,
+      3,
+    );
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
-        systemNavigationBarColor:
-            Theme.of(context).navigationBarTheme.backgroundColor,
+        systemNavigationBarColor: systemNavigationBarColor,
         systemNavigationBarIconBrightness:
             Theme.of(context).brightness == Brightness.dark
                 ? Brightness.light
