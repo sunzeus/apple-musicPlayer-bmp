@@ -1,9 +1,12 @@
+import 'package:bmp_music/features/album/notifiers/album_notifier.dart';
+import 'package:bmp_music/features/song/notifiers/song_notifier.dart';
 import 'package:bmp_music/screens/home_screen.dart';
 import 'package:bmp_music/screens/library_screen.dart';
 import 'package:bmp_music/screens/search_screen.dart';
 import 'package:bmp_music/utils/color_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -20,6 +23,18 @@ class _MainScreenState extends State<MainScreen> {
     const LibraryScreen(),
     const SearchScreen(),
   ];
+
+  @override
+  void initState() {
+    Future.delayed(
+      const Duration(milliseconds: 100),
+      () {
+        Provider.of<SongNotifier>(context, listen: false).loadSongs();
+        Provider.of<AlbumNotifier>(context, listen: false).loadAlbums();
+      },
+    );
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

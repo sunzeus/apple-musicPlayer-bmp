@@ -12,16 +12,8 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 class AppleAuthServices {
   static Future<void> signIn() async {
     try {
-      /// You have to put your service id here which you can find in previous steps
-      /// or in the following link: https://developer.apple.com/account/resources/identifiers/list/serviceId
       String clientID = 'com.example.bmpMusic-service';
 
-      /// Now you have to put the redirectURL which you received from Glitch Server
-      /// make sure you only copy the part till "https://<GLITCH PROVIDED UNIQUE NAME>.glitch.me/"
-      /// and append the following part to it "callbacks/sign_in_with_apple"
-      ///
-      /// It will look something like this
-      /// https://<GLITCH PROVIDED UNIQUE NAME>.glitch.me/callbacks/sign_in_with_apple
       String redirectURL =
           'https://valley-amplified-fright.glitch.me/callbacks/sign_in_with_apple';
 
@@ -70,20 +62,21 @@ class AppleAuthServices {
         'authorizationCode': appleCredential.authorizationCode,
       });
 
-      String musicUserToken = response.data['musicUserToken'];
-      DateTime expirationTime = response.data['expirationTime'];
+      if (response.statusCode == 200) {
+        String musicUserToken = response.data['musicUserToken'];
+        DateTime expirationTime = response.data['expirationTime'];
 
-      await FirebaseFirestore.instance
-          .collection("users")
-          .doc(userCredential.user?.uid)
-          .set(
-        {
-          'id': userCredential.user?.uid,
-          'musicUserToken': musicUserToken,
-          'expirationTime': expirationTime,
-        },
-      );
-      
+        await FirebaseFirestore.instance
+            .collection("users")
+            .doc(userCredential.user?.uid)
+            .set(
+          {
+            'id': userCredential.user?.uid,
+            'musicUserToken': musicUserToken,
+            'expirationTime': expirationTime,
+          },
+        );
+      }
     } catch (e) {
       debugPrint("ERROR : ${e.toString()}");
     }

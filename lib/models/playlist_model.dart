@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
-import 'song_model.dart';
+import '../features/song/models/song_model.dart';
 
 class Playlist {
   final String id;

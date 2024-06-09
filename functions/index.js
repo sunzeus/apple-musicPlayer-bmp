@@ -41,10 +41,10 @@ const generateDeveloperToken = () => {
 };
 
 // HTTP Cloud Function to generate developer token
-exports.getDeveloperToken = functions.https.onRequest((request, response) => {
-  const token = generateDeveloperToken();
-  response.json({token});
-});
+// exports.getDeveloperToken = functions.https.onRequest((request, response) => {
+//   const token = generateDeveloperToken();
+//   response.json({token});
+// });
 
 exports.getMusicUserToken = functions.https.onCall(async (data, context) => {
   const uid = context.auth.uid;
@@ -55,7 +55,7 @@ exports.getMusicUserToken = functions.https.onCall(async (data, context) => {
 
   // Check if token exists and is still valid
   if (userData && userData.musicUserToken && userData.expirationTime > Date.now()) {
-    return {musicUserToken: userData.musicUserToken};
+    return {musicUserToken: userData.musicUserToken, expirationTime: userData.expirationTime};
   }
 
   const authorizationCode = data.authorizationCode;
@@ -117,6 +117,7 @@ exports.getMusicUserToken = functions.https.onCall(async (data, context) => {
     return {musicUserToken: musicUserToken, expirationTime: expirationTime};
   } catch (error) {
     console.error("Error obtaining Music User Token:", error);
-    return {error: "Failed to obtain Music User Token"};
+    return {error: error};
   }
 });
+
