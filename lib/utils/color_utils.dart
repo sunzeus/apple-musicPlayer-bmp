@@ -24,8 +24,8 @@ class ColorUtils {
 
   static Color systemNavigationBarColor(BuildContext context) =>
       ElevationOverlay.applySurfaceTint(
+        Theme.of(context).colorScheme.surfaceContainer,
         Theme.of(context).colorScheme.surface,
-        Theme.of(context).colorScheme.surfaceTint,
-        2,
+        0,
       );
 }

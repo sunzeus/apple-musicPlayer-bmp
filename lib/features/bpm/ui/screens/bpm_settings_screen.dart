@@ -1,9 +1,9 @@
-import 'package:bmp_music/components/bpm_change_card.dart';
-import 'package:bmp_music/notifiers/bpm_notifier.dart';
+import 'package:bmp_music/features/bpm/ui/components/bpm_change_card.dart';
+import 'package:bmp_music/features/bpm/notifiers/bpm_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../utils/color_utils.dart';
+import '../../../../utils/color_utils.dart';
 
 class BPMSettingsScreen extends StatefulWidget {
   const BPMSettingsScreen({super.key});

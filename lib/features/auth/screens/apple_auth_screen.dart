@@ -1,5 +1,5 @@
 import 'package:bmp_music/features/auth/services/apple_auth_services.dart';
-import 'package:bmp_music/screens/home_screen.dart';
+import 'package:bmp_music/shared/ui/screens/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

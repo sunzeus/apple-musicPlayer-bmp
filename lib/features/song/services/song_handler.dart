@@ -130,4 +130,9 @@ class SongHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
   Future<void> toggleLoopMode(LoopMode loopMode) async {
     await audioPlayer.setLoopMode(loopMode);
   }
+
+  @override
+  Future<void> setSpeed(double speed) async {
+    await audioPlayer.setSpeed(speed);
+  }
 }

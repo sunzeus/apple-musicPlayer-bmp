@@ -1,8 +1,9 @@
+import 'package:bmp_music/features/song/notifiers/song_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../notifiers/bpm_notifier.dart';
-import '../utils/color_utils.dart';
+import '../../notifiers/bpm_notifier.dart';
+import '../../../../utils/color_utils.dart';
 
 class BPMChangeCard extends StatelessWidget {
   const BPMChangeCard({super.key});
@@ -50,6 +51,8 @@ class BPMChangeCard extends StatelessWidget {
                   value: (context.watch<BPMNotifier>().value / 100),
                   onChanged: (c) {
                     context.read<BPMNotifier>().updateValue((c * 100).toInt());
+                    double speed = c;
+                    context.read<SongNotifier>().songHandler.setSpeed(speed);
                   },
                 ),
               ),

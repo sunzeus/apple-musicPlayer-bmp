@@ -1,5 +1,5 @@
-import 'package:bmp_music/notifiers/bpm_notifier.dart';
-import 'package:bmp_music/screens/bpm_settings_screen.dart';
+import 'package:bmp_music/features/bpm/notifiers/bpm_notifier.dart';
+import 'package:bmp_music/features/bpm/ui/screens/bpm_settings_screen.dart';
 import 'package:bmp_music/utils/color_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -30,6 +30,7 @@ class BPMCard extends StatelessWidget {
                   color: ColorUtils.lightBlack,
                 ),
               ),
+              const SizedBox(height: 10),
               Text(
                 context.watch<BPMNotifier>().value.toString(),
                 style: const TextStyle(

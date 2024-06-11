@@ -17,9 +17,11 @@ class SongsList extends StatelessWidget {
     bool isLoading = songNotifier.loading;
 
     return isLoading
-        ? const Center(
-            child: CircularProgressIndicator(
-              strokeCap: StrokeCap.round,
+        ? const Expanded(
+            child: Center(
+              child: CircularProgressIndicator(
+                strokeCap: StrokeCap.round,
+              ),
             ),
           )
         : songs.isEmpty
