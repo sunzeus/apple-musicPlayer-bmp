@@ -52,7 +52,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyD7IXuap7p0Do_oFtPbyrn7wSYsubZmMTQ',
-    appId: '1:1060198123769:android:d1d3e329c5a02442c13a28',
+    appId: '1:1060198123769:android:a93d57db42b855bfc13a28',
     messagingSenderId: '1060198123769',
     projectId: 'music-app-9ee48',
     storageBucket: 'music-app-9ee48.appspot.com',
@@ -60,11 +60,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyADbzBFqDEPLmadnf1mTlhSciYxw0v7cKs',
-    appId: '1:1060198123769:ios:bc571549c4f5e36cc13a28',
+    appId: '1:1060198123769:ios:3791002a6dd29f9cc13a28',
     messagingSenderId: '1060198123769',
     projectId: 'music-app-9ee48',
     storageBucket: 'music-app-9ee48.appspot.com',
-    iosBundleId: 'com.example.bmpMusic',
+    iosBundleId: 'com.musicpacemaker.app',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(

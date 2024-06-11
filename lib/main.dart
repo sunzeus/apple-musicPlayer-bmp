@@ -22,7 +22,7 @@ Future<void> main() async {
   _songHandler = await AudioService.init(
     builder: () => SongHandler(),
     config: const AudioServiceConfig(
-      androidNotificationChannelId: 'com.music_pacemaker.app',
+      androidNotificationChannelId: 'com.musicpacemaker.app',
       androidNotificationChannelName: 'Music Pacemaker',
       androidNotificationOngoing: true,
       androidShowNotificationBadge: true,

@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1060198123769:android:d1d3e329c5a02442c13a28",
+        "mobilesdk_app_id": "1:1060198123769:android:a93d57db42b855bfc13a28",
         "android_client_info": {
-          "package_name": "com.example.bmp_music"
+          "package_name": "com.musicpacemaker.app"
         }
       },
       "oauth_client": [],

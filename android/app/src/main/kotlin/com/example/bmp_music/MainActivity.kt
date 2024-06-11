@@ -1,4 +1,4 @@
-package com.example.bmp_music
+package com.musicpacemaker.app
 
 import io.flutter.embedding.android.FlutterActivity
 
