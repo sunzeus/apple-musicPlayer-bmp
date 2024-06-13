@@ -12,29 +12,22 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 class AppleAuthServices {
   static Future<void> signIn() async {
     try {
-      String clientID = 'com.example.bmpMusic-service';
-
-      String redirectURL =
+      const String clientID = 'com.musicpacemaker.app-service';
+      const String redirectURL =
           'https://valley-amplified-fright.glitch.me/callbacks/sign_in_with_apple';
 
-      /// Generates a Random String from 1-9 and A-Z characters.
+      // Generate a raw nonce
       final rawNonce = generateNonce();
-
-      /// We are convering that rawNonce into SHA256 for security purposes
-      /// In our login.
+      // Create a SHA256 nonce for security
       final nonce = sha256ofString(rawNonce);
 
+      // Sign in with Apple
       final appleCredential = await SignInWithApple.getAppleIDCredential(
-        /// Scopes are the values that you are requiring from
-        /// Apple Server.
         scopes: [
           AppleIDAuthorizationScopes.email,
           AppleIDAuthorizationScopes.fullName,
         ],
         nonce: Platform.isIOS ? nonce : null,
-
-        /// We are providing Web Authentication for Android Login,
-        /// Android uses web browser based login for Apple.
         webAuthenticationOptions: Platform.isIOS
             ? null
             : WebAuthenticationOptions(
@@ -43,6 +36,7 @@ class AppleAuthServices {
               ),
       );
 
+      // Create Apple credential for Firebase Authentication
       final AuthCredential appleAuthCredential =
           OAuthProvider('apple.com').credential(
         idToken: appleCredential.identityToken,
@@ -50,38 +44,48 @@ class AppleAuthServices {
         accessToken: Platform.isIOS ? null : appleCredential.authorizationCode,
       );
 
-      /// Once you are successful in generating Apple Credentials,
-      /// We pass them into the Firebase function to finally sign in.
+      // Sign in to Firebase with Apple credential
       UserCredential userCredential =
           await FirebaseAuth.instance.signInWithCredential(appleAuthCredential);
 
-      HttpsCallable callable =
-          FirebaseFunctions.instance.httpsCallable('getMusicUserToken');
-
-      dynamic response = await callable.call({
-        'authorizationCode': appleCredential.authorizationCode,
-      });
-
-      if (response.statusCode == 200) {
-        String musicUserToken = response.data['musicUserToken'];
-        DateTime expirationTime = response.data['expirationTime'];
-
-        await FirebaseFirestore.instance
+      if (userCredential.user != null) {
+        // Reference to user's document in Firestore
+        final userDocRef = FirebaseFirestore.instance
             .collection("users")
-            .doc(userCredential.user?.uid)
-            .set(
-          {
-            'id': userCredential.user?.uid,
-            'musicUserToken': musicUserToken,
-            'expirationTime': expirationTime,
-          },
-        );
+            .doc(userCredential.user!.uid);
+        // Check if the user document exists
+        final userDocSnapshot = await userDocRef.get();
+
+        if (userDocSnapshot.exists == false) {
+          // User doesn't exist, create new document
+          await userDocRef.set(
+            {
+              'id': userCredential.user?.uid,
+              'email': userCredential.user?.email,
+              'musicUserToken': null,
+              'expirationTime': null,
+            },
+          );
+        }
+
+        // Call Cloud Function to get Music User Token
+        HttpsCallable callable =
+            FirebaseFunctions.instance.httpsCallable('getMusicUserToken');
+
+        await callable.call({
+          'authorizationCode': appleCredential.authorizationCode,
+        });
+      } else {
+        // Handle case where user is null after sign in
+        debugPrint("ERROR: User is null after sign in.");
       }
     } catch (e) {
-      debugPrint("ERROR : ${e.toString()}");
+      // Catch any errors that occur during sign-in process and print them
+      debugPrint("ERROR: ${e.toString()}");
     }
   }
 
+  // Utility function to generate a random nonce
   static String generateNonce([int length = 32]) {
     const charset =
         '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
@@ -90,12 +94,14 @@ class AppleAuthServices {
         .join();
   }
 
+  // Utility function to create SHA256 hash of a string
   static String sha256ofString(String input) {
     final bytes = utf8.encode(input);
     final digest = sha256.convert(bytes);
     return digest.toString();
   }
 
+  // Sign out method to sign out from Firebase
   static Future<void> signOut() async {
     await FirebaseAuth.instance.signOut();
   }

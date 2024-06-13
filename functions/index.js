@@ -11,12 +11,12 @@ admin.initializeApp();
 const firestoreClient = admin.firestore();
 
 const TEAM_ID = "K9W97KFJK3";
-const KEY_ID = "W3ZK6X526K";
+const KEY_ID = "R5J4D75W9V";
 const PRIVATE_KEY = `-----BEGIN PRIVATE KEY-----
-MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgqO6UCXA4zGG9lEWl
-4xJukvNqO9cQamOrd0SccQZQfyCgCgYIKoZIzj0DAQehRANCAAT/4lPDQX5C0O3W
-D0cWopT5S0UxB7wY7Is/EiGgtkt/q3EAkoxjxI5iTmEk58hyB38lC8p+7SVOMJV9
-ZiuwPrBF
+MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgSkQ0k/0lTF6mqjKd
+qeLAKdTsNKPuCe6KEp+2DPohJ9CgCgYIKoZIzj0DAQehRANCAARAO3Lbvn5MNdvF
++5ONTyMNNsZbfJJxh50CzQJfe4QSJviV2hpCgGKe6vgRsbjbJDWZfNwXK7+wQoZ9
+3dn+sa9h
 -----END PRIVATE KEY-----`;
 
 // Generate Developer Token
@@ -40,45 +40,47 @@ const generateDeveloperToken = () => {
   return token;
 };
 
-// HTTP Cloud Function to generate developer token
-// exports.getDeveloperToken = functions.https.onRequest((request, response) => {
-//   const token = generateDeveloperToken();
-//   response.json({token});
-// });
-
+// HTTP Cloud Function to get or update music user token
 exports.getMusicUserToken = functions.https.onCall(async (data, context) => {
   const uid = context.auth.uid;
 
-  // Retrieve user's token from Firestore
-  const userDoc = await firestoreClient.collection("users").doc(uid).get();
-  const userData = userDoc.data();
-
-  // Check if token exists and is still valid
-  if (userData && userData.musicUserToken && userData.expirationTime > Date.now()) {
-    return {musicUserToken: userData.musicUserToken, expirationTime: userData.expirationTime};
-  }
-
-  const authorizationCode = data.authorizationCode;
-  const developerToken = generateDeveloperToken();
-
-  const postData = querystring.stringify({
-    grant_type: "authorization_code",
-    code: authorizationCode,
-  });
-
-  const options = {
-    hostname: "api.music.apple.com",
-    port: 443,
-    path: "/v1/me/token",
-    method: "POST",
-    headers: {
-      "Authorization": `Bearer ${developerToken}`,
-      "Content-Type": "application/x-www-form-urlencoded",
-      "Content-Length": postData.length,
-    },
-  };
-
   try {
+    // Retrieve user's document from Firestore
+    const userDocRef = firestoreClient.collection("users").doc(uid);
+    const userDoc = await userDocRef.get();
+
+    if (!userDoc.exists) {
+      throw new Error("User document does not exist");
+    }
+
+    const userData = userDoc.data();
+
+    // Check if token exists and is still valid
+    if (userData.musicUserToken && userData.expirationTime > Date.now()) {
+      return {musicUserToken: userData.musicUserToken, expirationTime: userData.expirationTime};
+    }
+
+    const authorizationCode = data.authorizationCode;
+    const developerToken = generateDeveloperToken();
+
+    const postData = querystring.stringify({
+      grant_type: "authorization_code",
+      code: authorizationCode,
+    });
+
+    const options = {
+      hostname: "api.music.apple.com",
+      port: 443,
+      path: "/v1/me/token",
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${developerToken}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Content-Length": postData.length,
+      },
+    };
+
+    // Perform HTTPS request to Apple Music API
     const {musicUserToken, expires_in} = await new Promise((resolve, reject) => {
       const req = https.request(options, (res) => {
         let data = "";
@@ -108,16 +110,16 @@ exports.getMusicUserToken = functions.https.onCall(async (data, context) => {
 
     const expirationTime = Date.now() + expires_in * 1000;
 
-    // Store the Music User Token and expiration time in Firestore
-    await firestoreClient.collection("users").doc(uid).set({
+    // Update the Music User Token and expiration time in Firestore
+    await userDocRef.update({
       musicUserToken: musicUserToken,
       expirationTime: expirationTime,
     });
 
     return {musicUserToken: musicUserToken, expirationTime: expirationTime};
   } catch (error) {
-    console.error("Error obtaining Music User Token:", error);
-    return {error: error};
+    console.error("Error obtaining or updating Music User Token:", error);
+    return {error: error.message || error};
   }
 });
 

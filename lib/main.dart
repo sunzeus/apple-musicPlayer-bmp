@@ -66,7 +66,7 @@ class CheckAuthStatus extends StatelessWidget {
       builder: (context, snapshot) {
         User? user = snapshot.data;
         if (user == null) {
-          return const MainScreen();
+          return const AppleAuthScreen();
         } else {
           return const MainScreen();
         }
