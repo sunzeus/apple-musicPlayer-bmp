@@ -9,10 +9,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-class AppleAuthServices {
+class AppleMusicAuthServices {
   static Future<void> signIn() async {
     try {
-      const String clientID = 'com.musicpacemaker.app-service';
+      const String clientID = 'media.com.musicpacemaker.app';
       const String redirectURL =
           'https://valley-amplified-fright.glitch.me/callbacks/sign_in_with_apple';
 
@@ -70,7 +70,7 @@ class AppleAuthServices {
 
         // Call Cloud Function to get Music User Token
         HttpsCallable callable =
-            FirebaseFunctions.instance.httpsCallable('exchangeAuthorizationCodeForMusicToken');
+            FirebaseFunctions.instance.httpsCallable('getMusicUserToken');
 
         await callable.call({
           'authorizationCode': appleCredential.authorizationCode,

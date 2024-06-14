@@ -12,6 +12,7 @@ dependencies:
   cloud_firestore: ^5.0.0
   cloud_functions: ^5.0.0
   crypto: ^3.0.3
+  dio: ^5.4.3+1
   firebase_auth: ^5.0.0
   firebase_core: ^3.0.0
   flutter:
@@ -19,7 +20,6 @@ dependencies:
   flutter_dotenv: ^5.1.0
   get: ^4.6.6
   google_fonts: ^6.2.1
-  http: ^1.2.1
   intl: ^0.19.0
   just_audio: ^0.9.38
   permission_handler: ^11.3.1
