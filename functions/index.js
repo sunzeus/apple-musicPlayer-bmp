@@ -14,21 +14,19 @@ qeLAKdTsNKPuCe6KEp+2DPohJ9CgCgYIKoZIzj0DAQehRANCAARAO3Lbvn5MNdvF
 3dn+sa9h
 -----END PRIVATE KEY-----`;
 
-/**
- * Firebase Cloud Function to exchange authorization code for Apple Music User Token.
- * @param {Object} data - The data passed to the Cloud Function containing authorizationCode.
- * @param {Object} context - The context object of the Cloud Function.
- * @returns {Promise<Object>} Returns an object containing musicUserToken and expirationTime.
- */
 exports.exchangeAuthorizationCodeForMusicToken = functions.https.onCall(async (data, context) => {
   try {
-    const {authorizationCode} = data;
+    const authorizationCode = data.authorizationCode;
+
+    console.log("AuthorizationCode : ", authorizationCode);
 
     // Generate Apple Developer Token
-    const developerToken = generateDeveloperToken();
+    const developerToken = await generateDeveloperToken();
+
+    console.log("DEVELOPER TOKEN : ", developerToken);
 
     // Exchange authorizationCode for Apple Music User Token
-    const tokenResponse = await fetch("https://appleid.apple.com/auth/token", {
+    const response = await fetch("https://appleid.apple.com/auth/token", {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -38,25 +36,32 @@ exports.exchangeAuthorizationCodeForMusicToken = functions.https.onCall(async (d
         client_secret: developerToken,
         code: authorizationCode,
         grant_type: "authorization_code",
+        redirect_uri: "https://valley-amplified-fright.glitch.me/callbacks/sign_in_with_apple",
       }),
-    }).then((res) => res.json());
+    });
 
-    console.log("RESPONSE : ", tokenResponse);
+    const tokenResponse = await response.json();
+    if (response.ok) {
+      const musicUserToken = tokenResponse.access_token;
+      const expirationTime = Date.now() + (tokenResponse.expires_in * 1000);
 
-    const musicUserToken = tokenResponse.access_token;
-    const expirationTime = Date.now() + (tokenResponse.expires_in * 1000);
+      console.log("Music User Token:", musicUserToken);
 
-    console.log("Music Token : ", musicUserToken);
-
-    // Return the Apple Music User Token and expiration time
-    return {
-      musicUserToken: musicUserToken,
-      expirationTime: expirationTime,
-    };
+      // Return the Apple Music User Token and expiration time
+      return {
+        musicUserToken: musicUserToken,
+        expirationTime: expirationTime,
+      };
+    } else {
+      console.error("Error response from Apple : ", tokenResponse);
+      return {
+        error: tokenResponse,
+      };
+    }
   } catch (error) {
     console.error("Error exchanging authorization code for music token:", error);
     return {
-      error: error,
+      error: error.message,
     };
   }
 });
@@ -65,16 +70,16 @@ exports.exchangeAuthorizationCodeForMusicToken = functions.https.onCall(async (d
  * Function to generate Apple Developer Token using JWT.
  * @return {string} Returns the generated Apple Developer Token.
  */
-function generateDeveloperToken() {
+async function generateDeveloperToken() {
   const now = Math.floor(Date.now() / 1000);
   const expiration = now + 60 * 60 * 24; // Expires in 24 hours
 
-  const token = jwt.sign(
+  const token = await jwt.sign(
       {
         iss: TEAM_ID,
         iat: now,
         exp: expiration,
-        aud: "https://music.apple.com",
+        aud: "https://appleid.apple.com",
       },
       PRIVATE_KEY,
       {
@@ -82,6 +87,7 @@ function generateDeveloperToken() {
         keyid: KEY_ID,
       },
   );
+
 
   return token;
 }
