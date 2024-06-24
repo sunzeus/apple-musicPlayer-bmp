@@ -1,6 +1,7 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:bmp_music/features/album/notifiers/album_notifier.dart';
 import 'package:bmp_music/features/auth/screens/apple_auth_screen.dart';
+import 'package:bmp_music/features/auth/screens/apple_music_auth_screen.dart';
 import 'package:bmp_music/features/song/notifiers/song_notifier.dart';
 import 'package:bmp_music/features/bpm/notifiers/bpm_notifier.dart';
 import 'package:bmp_music/shared/ui/screens/main_screen.dart';
@@ -68,7 +69,7 @@ class CheckAuthStatus extends StatelessWidget {
         if (user == null) {
           return const AppleAuthScreen();
         } else {
-          return const MainScreen();
+          return const AppleMusicAuthPage();
         }
       },
     );

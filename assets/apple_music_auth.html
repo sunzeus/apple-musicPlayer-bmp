@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- <meta name="apple-music-developer-token" content="YOUR_DEVELOPER_TOKEN" />
+  <meta name="apple-music-app-name" content="Music PaceMaker" />
+  <meta name="apple-music-app-build" content="1.0.0" /> -->
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    #container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    button {
+      padding: 15px 30px;
+      font-size: 24px;
+      color: white;
+      background-color: #007aff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    button:hover {
+      background-color: #005bb5;
+    }
+  </style>
+  <script src="https://js-cdn.music.apple.com/musickit/v3/musickit.js"></script>
+  <script>
+    document.addEventListener('musickitloaded', () => {
+      // MusicKit global is now defined
+      const music = MusicKit.configure({
+        developerToken: developerToken,
+        app: {
+          name: 'Music Pacemaker',
+          build: '1.0.0'
+        }
+      });
+
+      document.getElementById('authorize-btn').addEventListener('click', async () => {
+
+        await music.authorize().then(musicUserToken => {
+          console.log(`Authorized, music-user-token: ${musicUserToken}`);
+        }).catch(err => {
+          console.error('Authorization Error:', err);
+        });
+      });
+
+      // expose our instance globally for testing
+      window.music = music;
+    });
+  </script>
+</head>
+
+<body>
+  <div id="container">
+    <h1>Apple Music Authorization</h1>
+    <p>
+      Please authorize this application to use Apple Music by clicking the
+      button below.
+    </p>
+    <button id="authorize-btn">Authorize</button>
+  </div>
+
+
+  <!-- <script>
+    document.getElementById('authorizeButton').addEventListener('click', async () => {
+      try {
+        const music = MusicKit.getInstance();
+        console.log('MUSIC :', music);
+        const musicUserToken = await music.authorize();
+        console.log('Authorization successful:', musicUserToken); // Debugging message
+        window.webkit.messageHandlers.getMusicUserToken.postMessage(musicUserToken);
+      } catch (err) {
+        console.error('Authorization Error:', err); // Debugging message
+      }
+    });
+  </script> -->
+</body>
+
+</html>

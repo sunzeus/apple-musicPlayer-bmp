@@ -69,12 +69,12 @@ class AppleAuthServices {
         }
 
         // Call Cloud Function to get Music User Token
-        HttpsCallable callable =
-            FirebaseFunctions.instance.httpsCallable('exchangeAuthorizationCodeForMusicToken');
+        // HttpsCallable callable =
+        //     FirebaseFunctions.instance.httpsCallable('exchangeAuthorizationCodeForMusicToken');
 
-        await callable.call({
-          'authorizationCode': appleCredential.authorizationCode,
-        });
+        // await callable.call({
+        //   'authorizationCode': appleCredential.authorizationCode,
+        // });
       } else {
         // Handle case where user is null after sign in
         debugPrint("ERROR: User is null after sign in.");

@@ -91,3 +91,13 @@ async function generateDeveloperToken() {
 
   return token;
 }
+
+exports.generateDeveloperToken = functions.https.onCall(async (data, context) => {
+  try {
+    const developerToken = await generateDeveloperToken();
+
+    return {token: developerToken};
+  } catch (e) {
+    return {error: e};
+  }
+});
